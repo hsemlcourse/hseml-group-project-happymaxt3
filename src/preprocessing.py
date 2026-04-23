@@ -49,8 +49,18 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     print("\nДублей до удаления:", df.duplicated().sum())
     df.drop_duplicates(inplace=True)
 
+    # дата (чистим строку перед преобразованием)
+    df["date"] = df["date"].astype(str).str.strip()
+    df["date"] = df["date"].str.replace('"', "", regex=False)
+    df["date"] = df["date"].str.replace("\r", "", regex=False)
+    df["date"] = df["date"].str.replace("\n", "", regex=False)
+
     # дата (НЕ удаляем строки, иначе ломается класс fake)
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df["date"] = pd.to_datetime(
+        df["date"],
+        format="%B %d, %Y",
+        errors="coerce"
+    )
 
     return df
 
@@ -93,6 +103,9 @@ def preprocess():
 
     print("\nБаланс классов:")
     print(df["target"].value_counts())
+
+    print("\nПустых дат после обработки:")
+    print(df["date"].isna().sum())
 
     # train / val / test
     train_df, temp_df = train_test_split(
