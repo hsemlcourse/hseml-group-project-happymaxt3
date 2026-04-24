@@ -1,8 +1,14 @@
 import re
 from pathlib import Path
+import nltk
+from nltk.stem import WordNetLemmatizer
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
+
+nltk.download("wordnet")
+
+lemmatizer = WordNetLemmatizer()
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -17,7 +23,10 @@ def clean_text(text: str) -> str:
     text = re.sub(r"www\S+", "", text)
     text = re.sub(r"[^a-zA-Z\s]", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
-    return text
+    words = text.split()
+    words = [lemmatizer.lemmatize(word) for word in words]
+
+    return " ".join(words)
 
 
 def load_data():
