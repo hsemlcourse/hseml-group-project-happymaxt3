@@ -147,10 +147,10 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     df["weekday"] = df["date"].dt.weekday
 
     # короткие / пустые статьи убираем
-    df = df[df["word_count"] > 20]
+    df = df[df["word_count"] > 25]
 
     # выбросы по длине текста (верхний 99 перцентиль)
-    max_words = df["word_count"].quantile(0.99)
+    max_words = df["word_count"].quantile(0.9)
     df = df[df["word_count"] <= max_words]
 
     return df

@@ -93,17 +93,17 @@ pip install -r requirements.txt
 ```
 
 ## Данные
-- `data/raw/` — исходные файлы
-- `data/processed/` — предобработанные данные
+- `data/raw/` — исходные файлы (скрыты)
+- `data/processed/` — предобработанные данные (скрыты)
 
 
 ## Результаты
                 model  accuracy  f1_score
-4             XGBoost  0.997739  0.997833
-3        RandomForest  0.996835  0.996960
-2           LinearSVC  0.996609  0.996751
-0  LogisticRegression  0.991861  0.992194
-1       MultinomialNB  0.955912  0.957820
+2           LinearSVC  0.981006  0.981444
+0  LogisticRegression  0.968686  0.969254
+3        RandomForest  0.965349  0.966157
+4             XGBoost  0.951489  0.952333
+1       MultinomialNB  0.931211  0.932899
 
 
 ## Отчёт
