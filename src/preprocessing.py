@@ -19,11 +19,68 @@ PROCESSED_DIR = BASE_DIR / "data" / "processed"
 
 def clean_text(text: str) -> str:
     text = str(text).lower()
-    text = re.sub(r"http\S+", "", text)
-    text = re.sub(r"www\S+", "", text)
+
+    # - ссылки
+    text = re.sub(r"http\S+", " ", text)
+    text = re.sub(r"www\S+", " ", text)
+    text = re.sub(r"pic\.twitter\S+", " ", text)
+
+    # - источники и мусорные сигналы
+    patterns = [
+        r"\breuters\b",
+        r"\bfeatured image\b",
+        r"\bfeatured video\b",
+        r"\bread entire story\b",
+        r"\bvia twitter\b",
+        r"\bvia wikimedia\b",
+        r"\bdailymailonline\b",
+        r"\bfacebook\b",
+        r"\btwitter\b",
+        r"\bvideo\b",
+        r"\bimage\b",
+        r"\bflickr\b",
+        r"\bwikimedia\b",
+        r"\bpic\.twitter\.com\S*\b",
+
+        # частовстречающиеся слова
+        r"\bthe\b",
+        r"\band\b",
+        r"\bthat\b",
+        r"\bfor\b",
+        r"\btrump\b",
+
+        r"\bthis\b",
+        r"\byou\b",
+        r"\bhis\b",
+        r"\bthey\b",
+        r"\bare\b",
+
+        r"\bsaid\b",
+        r"\bwa\b",
+        r"\bha\b",
+    ]
+
     text = re.sub(r"[^a-zA-Z\s]", " ", text)
+
+    # - пробелы
     text = re.sub(r"\s+", " ", text).strip()
+
+    for pattern in patterns:
+        text = re.sub(pattern, " ", text)
+
     words = text.split()
+
+    # - первые 5 слов (часто заголовок / мусор / источник)
+    if len(words) > 5:
+        words = words[5:]
+
+    # - ограничение длины (убирает влияние длины статьи)
+    words = words[:250]
+
+    # - короткие слова
+    words = [word for word in words if len(word) > 2]
+
+    # - лемматизация
     words = [lemmatizer.lemmatize(word) for word in words]
 
     return " ".join(words)
@@ -75,7 +132,9 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def create_features(df: pd.DataFrame) -> pd.DataFrame:
-    df["full_text"] = df["title"].fillna("") + " " + df["text"].fillna("")
+
+    # - title как источник утечки
+    df["full_text"] = df["text"].fillna("")
     df["full_text"] = df["full_text"].apply(clean_text)
 
     df["text_length"] = df["full_text"].apply(len)
@@ -88,7 +147,7 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     df["weekday"] = df["date"].dt.weekday
 
     # короткие / пустые статьи убираем
-    df = df[df["word_count"] > 5]
+    df = df[df["word_count"] > 20]
 
     # выбросы по длине текста (верхний 99 перцентиль)
     max_words = df["word_count"].quantile(0.99)
@@ -145,3 +204,4 @@ def preprocess():
 
 if __name__ == "__main__":
     preprocess()
+    print(PROCESSED_DIR.resolve())
