@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/kOqwghv0)
 # ML Project — Определение фейковых новостей
 
-**Студент:** Толмачев Маким Сергеевич
+**Студент:** Толмачев Макcим Сергеевич
 
 **Группа:** БИВ238
 
@@ -98,6 +98,8 @@ pip install -r requirements.txt
 
 
 ## Результаты
+
+```
                 model  accuracy  f1_score
 2           LinearSVC  0.981006  0.981444
 0  LogisticRegression  0.968686  0.969254
@@ -105,6 +107,43 @@ pip install -r requirements.txt
 4             XGBoost  0.951489  0.952333
 1       MultinomialNB  0.931211  0.932899
 
+
+Fitting 3 folds for each of 9 candidates, totalling 27 fits
+
+Лучшая модель:
+{'model': LinearSVC(random_state=42), 'model__C': 1}
+Accuracy: 0.981006160164271
+F1: 0.981444332998997
+Training: LogisticRegression
+Training: MultinomialNB
+Training: LinearSVC
+Training: RandomForest
+Training: XGBoost
+         stage               model  \
+2     baseline           LinearSVC   
+0     baseline  LogisticRegression   
+3     baseline        RandomForest   
+4     baseline             XGBoost   
+5  grid_search           LinearSVC   
+1     baseline       MultinomialNB   
+
+                                              params           features  \
+2  {'C': 1.0, 'class_weight': None, 'dual': 'auto...  TF-IDF (1,2), 30k   
+0  {'C': 1.0, 'class_weight': None, 'dual': False...  TF-IDF (1,2), 30k   
+3  {'bootstrap': True, 'ccp_alpha': 0.0, 'class_w...  TF-IDF (1,2), 30k   
+4  {'objective': 'binary:logistic', 'base_score':...  TF-IDF (1,2), 30k   
+5  {'model': LinearSVC(random_state=42), 'model__...  TF-IDF (1,2), 30k   
+1  {'alpha': 1.0, 'class_prior': None, 'fit_prior...  TF-IDF (1,2), 30k
+ 
+
+   accuracy  f1_score                 comment  
+2    0.9810    0.9814             без тюнинга  
+0    0.9687    0.9693             без тюнинга  
+3    0.9653    0.9662             без тюнинга  
+4    0.9515    0.9523             без тюнинга  
+5    0.9515    0.9523  подбор гиперпараметров  
+1    0.9312    0.9329             без тюнинга  
+ ``` 
 
 ## Отчёт
 
