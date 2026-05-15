@@ -72,6 +72,8 @@ F1 выбрана как основная метрика, так как зада
 ├── tests
 │   └── test.py                 # Тесты пайплайна
 ├── requirements.txt
+├── .dockerignore               # Докер
+├── Dockerfile
 └── README.md
 ```
 
@@ -90,6 +92,15 @@ source .venv/bin/activate   # Linux/macOS
 
 # 3. Установить зависимости
 pip install -r requirements.txt
+```
+
+Создание Docker-контейнера
+```
+cd <repo-name>
+
+docker build -t fake-news-detector .
+# запуск
+docker run -it fake-news-detector
 ```
 
 ## Данные
