@@ -54,6 +54,8 @@ F1 выбрана как основная метрика, так как зада
 ## Структура репозитория
 ```
 .
+├── api                         # Скрипт fast api
+├── bot                         # Скрипт tg-бота
 ├── data
 │   ├── processed               # Очищенные и обработанные данные
 │   └── raw                     # Исходные файлы
@@ -92,9 +94,15 @@ source .venv/bin/activate   # Linux/macOS
 
 # 3. Установить зависимости
 pip install -r requirements.txt
+
+# 4. Запустить Fast Api
+uvicorn api.main:app --reload
+
+# 5. Запустить бота (предварительно вставить токен в bot.py)
+python bot/bot.py
 ```
 
-Создание Docker-контейнера
+Создание Docker-контейнера (деплой на сервер)
 ```
 cd <repo-name>
 

@@ -4,7 +4,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 import re
 
 # НАСТРОЙКИ
-TOKEN = "8026221428:AAEJ3cpDb1s3MjRtHaqtBvsCH0ioRhoStQU"
+TOKEN = ""
 API_URL = "http://127.0.0.1:8000/predict"
 
 bot = telebot.TeleBot(TOKEN)
